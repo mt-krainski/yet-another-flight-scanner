@@ -52,7 +52,6 @@ jobs:
         working-directory: ./yafs
         run: |
           source .venv/bin/activate
-          poe manage migrate
           poe test-full
       - name: Run lint
         working-directory: ./yafs
