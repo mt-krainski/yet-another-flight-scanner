@@ -46,8 +46,8 @@ jobs:
       - name: Install project
         working-directory: ./yafs
         run: |
-          poe configure
           poetry install --no-interaction
+          poe configure
       - name: Run tests
         working-directory: ./yafs
         run: |
