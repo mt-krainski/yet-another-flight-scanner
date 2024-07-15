@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.12"
 pytest = "^8.2.2"
 playwright = "^1.45.0"
+click = "^8.1.7"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -31,6 +32,7 @@ django-extensions = "^3.2.3"
 coverage = "^7.5.4"
 ipython = "^8.26.0"
 jupyter = "^1.0.0"
+pytest-asyncio = "^0.23.7"
 
 [build-system]
 requires = ["poetry-core"]
