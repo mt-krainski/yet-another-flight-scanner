@@ -42,7 +42,7 @@ async def _get_flights(
 
 
 async def _go_to_google_flights(page):
-    await page.goto("https://www.google.com/travel/flights/search")
+    await page.goto("https://www.google.com/travel/flights/search")  # noqa: SC200
 
 
 async def _input_location(page, label, location_name, location_code):
@@ -133,13 +133,26 @@ async def _parse_results(page, **kwargs):
 
 
 async def get_flights(
-    origin_airport_name,
-    origin_airport_code,
-    destination_airport_name,
-    destination_airport_code,
-    departure_date,
-    return_date,
+    origin_airport_name: str,
+    origin_airport_code: str,
+    destination_airport_name: str,
+    destination_airport_code: str,
+    departure_date: str,
+    return_date: str,
 ):
+    """Get flights for the selected connection.
+
+    Args:
+        origin_airport_name (str): name of the origin airport
+        origin_airport_code (str): code of the origin airport
+        destination_airport_name (str): name of the destination airport
+        destination_airport_code (str): code of the destination airport
+        departure_date (str): date of departure, e.g. "21 Jul" or "21 July"
+        return_date (str): return date, e.g. "28 Jul" or "28 July"
+
+    Returns:
+        list: List of dicts containing metadata of discovered connections
+    """
     async with async_playwright() as p:
         browser = await p.chromium.launch()
         data = await _get_flights(

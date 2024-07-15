@@ -43,6 +43,8 @@ max-line-length = 88
 dictionaries = ["en_US", "python", "technical"]
 ignore = ["D104", "D100", "D101", "D106"]
 per-file-ignores = """
+    main.py: D103
+    **/tests/*: S101,D103
 """
 
 [tool.isort]
