@@ -4,12 +4,15 @@ from playwright.async_api import async_playwright
 
 from yafs.utils import extract_numeric_and_non_numeric, insert_space_before_capital
 
-AIRPORT = ("Orlando", "MCO")
+ORIGIN_AIRPORT = ("Ottawa", "YOW")
+DESTINATION_AIRPORT = ("Orlando", "MCO")
 DATES = ("15 Aug", "21 Aug")
 
 
 async def _get_flights(
     browser,
+    origin_airport_name,
+    origin_airport_code,
     destination_airport_name,
     destination_airport_code,
     departure_date,
@@ -18,6 +21,7 @@ async def _get_flights(
     page = await browser.new_page()
     await _go_to_google_flights(page)
 
+    await _input_where_from(page, origin_airport_name, origin_airport_code)
     await _input_where_to(page, destination_airport_name, destination_airport_code)
 
     await _input_departure_date(page, departure_date)
@@ -39,12 +43,20 @@ async def _go_to_google_flights(page):
     await page.goto("https://www.google.com/travel/flights/search")
 
 
-async def _input_where_to(page, destination_name, destination_code):
-    where_to = page.get_by_placeholder("Where to?")
-    await where_to.press_sequentially(destination_name)
+async def _input_location(page, label, location_name, location_code):
+    location = page.get_by_label(label, exact=True)
+    await location.fill(location_name)
     await page.wait_for_timeout(2000)
-    airport = page.get_by_text(AIRPORT[1])
+    airport = page.get_by_text(location_code)
     await airport.click()
+
+
+async def _input_where_to(page, destination_name, destination_code):
+    await _input_location(page, "Where to?", destination_name, destination_code)
+
+
+async def _input_where_from(page, origin_name, origin_code):
+    await _input_location(page, "Where from?", origin_name, origin_code)
 
 
 async def _input_date(page, placeholder, date):
@@ -119,12 +131,19 @@ async def _parse_results(page):
 
 
 async def get_flights(
-    destination_airport_name, destination_airport_code, departure_date, return_date
+    origin_airport_name,
+    origin_airport_code,
+    destination_airport_name,
+    destination_airport_code,
+    departure_date,
+    return_date,
 ):
     async with async_playwright() as p:
         browser = await p.chromium.launch()
         data = await _get_flights(
             browser,
+            origin_airport_name,
+            origin_airport_code,
             destination_airport_name,
             destination_airport_code,
             departure_date,
@@ -135,7 +154,14 @@ async def get_flights(
 
 
 async def main():
-    data = await get_flights(AIRPORT[0], AIRPORT[1], DATES[0], DATES[1])
+    data = await get_flights(
+        ORIGIN_AIRPORT[0],
+        ORIGIN_AIRPORT[1],
+        DESTINATION_AIRPORT[0],
+        DESTINATION_AIRPORT[1],
+        DATES[0],
+        DATES[1],
+    )
     print(data)
 
 
