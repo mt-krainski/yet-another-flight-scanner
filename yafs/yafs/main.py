@@ -35,7 +35,15 @@ async def _get_flights(
 
     await _hide_separate_tickets_filter(page)
 
-    data = await _parse_results(page)
+    data = await _parse_results(
+        page,
+        origin_airport_name=origin_airport_name,
+        origin_airport_code=origin_airport_code,
+        destination_airport_name=destination_airport_name,
+        destination_airport_code=destination_airport_code,
+        departure_date=departure_date,
+        return_date=return_date,
+    )
     return data
 
 
@@ -102,7 +110,7 @@ async def _hide_separate_tickets_filter(page):
     await page.keyboard.press("Escape")
 
 
-async def _parse_results(page):
+async def _parse_results(page, **kwargs):
     data = []
     for row in await page.get_by_role("listitem").all():
         texts = (await row.all_inner_texts())[0].split("\n")
@@ -126,7 +134,7 @@ async def _parse_results(page):
         }
         if not nonstop:
             parsed_texts["stops"] = texts[7]
-        data.append(parsed_texts)
+        data.append(parsed_texts | kwargs)
     return data
 
 
