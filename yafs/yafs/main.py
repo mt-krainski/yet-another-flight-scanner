@@ -69,7 +69,7 @@ async def yafs(
             )
         except Exception as e:
             print(
-                f"Run failed due to {e}. This was attempt {i+1}/{MAX_RETRIES}. "
+                f"Run failed due to {e}. This was attempt {i + 1}/{MAX_RETRIES}. "
                 "Restarting..."
             )
         else:
