@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 IFS=$'\n'
-for row in $(cat flights-to-scan.csv)
+for row in $(cat nov-europe.csv | sed 's/\r$//')
 do
   origin_airport_name=$(echo $row | cut -d "," -f 1)
   origin_airport_code=$(echo $row | cut -d "," -f 2)

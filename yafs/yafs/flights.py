@@ -49,7 +49,7 @@ async def _input_location(page, label, location_name, location_code):
     location = page.get_by_label(label, exact=True)
     await location.fill(location_name)
     await page.wait_for_timeout(2000)
-    airport = page.get_by_text(location_code)
+    airport = page.get_by_text(location_code, exact=True)
     await airport.click()
 
 
@@ -110,9 +110,9 @@ async def _parse_results(page, **kwargs):
         texts = (await row.all_inner_texts())[0].split("\n")
         if "more flights" in texts[0]:
             continue
-        nonstop = False
+        direct_flight = False
         if "nonstop" in texts[6].lower():
-            nonstop = True
+            direct_flight = True
 
         price_str = texts[-2] if texts[-2] != "round trip" else texts[-3]
         price_components = extract_numeric_and_non_numeric(price_str)
@@ -122,11 +122,11 @@ async def _parse_results(page, **kwargs):
             "landing": " ".join(texts[2].split()),
             "airline": insert_space_before_capital(texts[3]),
             "duration": texts[4],
-            "nonstop?": nonstop,
+            "direct_flight": direct_flight,
             "price_currency": price_components[1],
             "price_unit": price_components[0],
         }
-        if not nonstop:
+        if not direct_flight:
             parsed_texts["stops"] = texts[7]
         data.append(parsed_texts | kwargs)
     return data

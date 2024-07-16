@@ -7,6 +7,8 @@ from slugify import slugify
 
 from yafs.flights import get_flights
 
+MAX_RETRIES = 10
+
 
 def as_coroutine(f):
     @wraps(f)
@@ -55,14 +57,25 @@ async def yafs(
     return_date,
     result_filename,
 ):
-    data = await get_flights(
-        origin_airport[0],
-        origin_airport[1],
-        destination_airport[0],
-        destination_airport[1],
-        departure_date,
-        return_date,
-    )
+    for i in range(MAX_RETRIES):
+        try:
+            data = await get_flights(
+                origin_airport[0],
+                origin_airport[1],
+                destination_airport[0],
+                destination_airport[1],
+                departure_date,
+                return_date,
+            )
+        except Exception as e:
+            print(
+                f"Run failed due to {e}. This was attempt {i+1}/{MAX_RETRIES}. "
+                "Restarting..."
+            )
+        else:
+            break
+    else:
+        raise Exception(f"Run failed {MAX_RETRIES} times. Aborting.")
 
     if result_filename is None:
         result_filename = (
