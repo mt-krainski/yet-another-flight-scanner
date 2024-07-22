@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-pytest = "^8.2.2"
+pytest = "^8.3.1"
 playwright = "^1.45.0"
 click = "^8.1.7"
 python-slugify = "^8.0.4"
