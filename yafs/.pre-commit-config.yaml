@@ -10,8 +10,8 @@ repos:
       - id: check-added-large-files
       - id: check-toml
       - id: file-contents-sorter
-        files: whitelist.txt
-        args: [./yafs/whitelist.txt]
+        files: .spellcheck-allowlist.txt
+        args: [./yafs/.spellcheck-allowlist.txt]
   - repo: https://github.com/psf/black
     rev: 24.4.2
     hooks:
