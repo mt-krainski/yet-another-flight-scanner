@@ -1,4 +1,4 @@
-yafs
-utils
 coroutine
 slugify
+utils
+yafs
