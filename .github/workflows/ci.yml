@@ -58,6 +58,11 @@ jobs:
         run: |
           source .venv/bin/activate
           poe lint
+      - name: Run hooks
+        working-directory: ./yafs
+        run: |
+          source .venv/bin/activate
+          poe run-hooks
 
   dependabot:
     name: "Dependabot"

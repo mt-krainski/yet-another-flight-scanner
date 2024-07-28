@@ -74,7 +74,8 @@ envfile = ".env"
 [tool.poe.tasks]
 configure = "./scripts/configure.sh"
 lint = "flake8 yafs scripts"
-test = 'coverage run -m pytest --showlocals'
+test = "coverage run -m pytest --showlocals"
+run-hooks = "pre-commit run --all-files"
 
 [tool.poe.tasks.test-full]
 sequence = [
