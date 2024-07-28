@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   test-yafs:
@@ -63,13 +64,22 @@ jobs:
         run: |
           source .venv/bin/activate
           poe run-hooks
+
+  ai-review:
+    name: "AI Code Review"
+    needs: [test-yafs]
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request'}}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
       - name: AI Code Review
         uses: freeedcom/ai-codereviewer@v2.7.0
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # The GITHUB_TOKEN is there by default so you just need to keep it like it is and not necessarily need to add it as secret as it will throw an error. [More Details](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#about-the-github_token-secret)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_API_MODEL: "gpt-4o-mini" # Optional: defaults to "gpt-4"
-          exclude: "**/*.json, **/*.md, **/*.lock" # Optional: exclude patterns separated by commas
+          OPENAI_API_MODEL: "gpt-4o-mini"
+          exclude: "**/*.json, **/*.md, **/*.lock"
 
   dependabot:
     name: "Dependabot"
