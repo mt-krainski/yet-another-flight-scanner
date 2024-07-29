@@ -60,6 +60,7 @@ per-file-ignores = """
     main.py: D103
     **/tests/*: S101,D103
 """
+whitelist = ".spellcheck-allowlist.txt"
 
 [tool.isort]
 include_trailing_comma = true
