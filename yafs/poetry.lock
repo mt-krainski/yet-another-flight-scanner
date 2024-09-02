@@ -261,10 +261,12 @@ files = [
 
 [package.dependencies]
 click = ">=8.0.0"
+ipython = {version = ">=7.8.0", optional = true, markers = "extra == \"jupyter\""}
 mypy-extensions = ">=0.4.3"
 packaging = ">=22.0"
 pathspec = ">=0.9.0"
 platformdirs = ">=2"
+tokenize-rt = {version = ">=3.2.0", optional = true, markers = "extra == \"jupyter\""}
 
 [package.extras]
 colorama = ["colorama (>=0.4.3)"]
@@ -1356,23 +1358,21 @@ notebook = "*"
 
 [[package]]
 name = "jupyter-black"
-version = "0.3.4"
+version = "0.4.0"
 description = "A simple extension for Jupyter Notebook and Jupyter Lab to beautify Python code automatically using Black. Fork of dnanhkhoa/nb_black."
 optional = false
 python-versions = "*"
 files = [
-    {file = "jupyter-black-0.3.4.tar.gz", hash = "sha256:2a38f33d4c321eb768f426103635ac9b80b40c9e42aa06072a729e3caddca4c3"},
-    {file = "jupyter_black-0.3.4-py3-none-any.whl", hash = "sha256:8690ec1d16d173a74eecc44419755ca7209c494b213e0d7b04c40a878239e247"},
+    {file = "jupyter_black-0.4.0-py3-none-any.whl", hash = "sha256:aa4166786ad213e8863e2ea11e94cde4096c3b8d2734b2f64e0c4aab470beecc"},
+    {file = "jupyter_black-0.4.0.tar.gz", hash = "sha256:c88e01eff670d933f96bdf0dbc84bb71880b8a2ef38efca08a0fe6cfd6296db4"},
 ]
 
 [package.dependencies]
-black = ">=21"
-ipython = ">=7"
-tokenize-rt = ">=4"
+black = {version = ">=21", extras = ["jupyter"]}
 
 [package.extras]
-dev = ["build (==0.9.0)", "twine (==4.0.1)", "wheel (==0.37.0)"]
-test = ["flake8 (==3.9.2)", "flake8-docstrings (==1.6.0)", "flake8-import-order (==0.18.1)", "isort (==5.11.5)", "jupyterlab (==3.6.3)", "mypy (==1.2.0)", "pep8-naming (==0.12.1)", "playwright (==1.14.1)", "pytest (==7.3.1)", "tox (==4.5.1)"]
+dev = ["build (==1)", "twine (==5)"]
+test = ["flake8 (==7)", "flake8-docstrings (==1.7)", "jupyterlab (>=4)", "mypy (==1)", "notebook (>=7)", "pep8-naming (==0.14)", "playwright (==1.46)", "pytest (==8)", "tox (==4)"]
 
 [[package]]
 name = "jupyter-client"
@@ -3236,4 +3236,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "b6ccea8140d5f8c06e8cb36348c6fc866f75af0e38c14565a8b703ac1deb37cc"
+content-hash = "0aa28d7bda253826e128ff4416ef30ed6a8492e462a41868f1fc4cb20ad07f6b"
