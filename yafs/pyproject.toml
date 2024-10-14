@@ -35,7 +35,7 @@ ipython = "^8.28.0"
 jupyter = "^1.1.1"
 pytest-asyncio = "^0.24.0"
 jupyter-black = "^0.4.0"
-pre-commit = "^4.0.0"
+pre-commit = "^4.0.1"
 
 [tool.poetry.group.analysis]
 optional = true
