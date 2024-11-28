@@ -1,6 +1,7 @@
 from functools import wraps
 
-from playwright.async_api import TimeoutError, async_playwright
+from playwright.async_api import TimeoutError as PlaywrightTimeoutError
+from playwright.async_api import async_playwright
 
 from yafs.utils import extract_numeric_and_non_numeric, insert_space_before_capital
 
@@ -54,7 +55,15 @@ def _configure_verbose(verbose_setting):
     verbose = verbose_setting
 
 
-def capture_result_screenshot(f):
+def capture_screenshot(f):
+    """Capture screenshot before and after executing the function.
+
+    Args:
+        f (Callable): Any function, first parameter must be `page`
+
+    Returns:
+        Callable: wrapper
+    """
     global verbose
 
     @wraps(f)
@@ -73,12 +82,12 @@ async def _screenshot(page, screenshot_name, verbose=False):
     await page.screenshot(path=f".screenshots/{screenshot_name}.png")
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _go_to_google_flights(page):
     await page.goto("https://www.google.com/travel/flights/search")  # noqa: SC200
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _input_location(page, label, location_name, location_code):
     location = page.get_by_label(label, exact=True)
     await location.fill(location_name)
@@ -87,17 +96,17 @@ async def _input_location(page, label, location_name, location_code):
     await airport.click()
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _input_where_to(page, destination_name, destination_code):
     await _input_location(page, "Where to?", destination_name, destination_code)
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _input_where_from(page, origin_name, origin_code):
     await _input_location(page, "Where from?", origin_name, origin_code)
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _input_date(page, placeholder, date):
     date_input = page.get_by_placeholder(placeholder).nth(0)
     await page.wait_for_timeout(500)
@@ -107,34 +116,34 @@ async def _input_date(page, placeholder, date):
     await page.wait_for_timeout(100)
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _input_departure_date(page, date):
     await _input_date(page, "Departure", date)
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _input_return_date(page, date):
     await _input_date(page, "Return", date)
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _wait(page, timeout=1000):
     await page.wait_for_timeout(timeout)
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _press_escape(page):
     await page.keyboard.press("Escape")
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _click_search(page):
     search = page.get_by_label("Search", exact=True)
     await page.wait_for_timeout(100)
     await search.click()
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _hide_separate_tickets_filter(page):
     filters = page.get_by_label("All filters")
     await filters.click()
@@ -153,7 +162,7 @@ async def _hide_separate_tickets_filter(page):
             hide_separate = page.get_by_text(description)
             await hide_separate.scroll_into_view_if_needed()
             break
-        except TimeoutError:
+        except PlaywrightTimeoutError:
             continue
     else:
         raise Exception(
@@ -165,7 +174,7 @@ async def _hide_separate_tickets_filter(page):
     await page.keyboard.press("Escape")
 
 
-@capture_result_screenshot
+@capture_screenshot
 async def _parse_results(page, **kwargs):
     data = []
     for row in await page.get_by_role("listitem").all():
