@@ -82,3 +82,9 @@ run-hooks = "pre-commit run --all-files"
 sequence = [
   { ref = "test" }
 ]
+
+[tool.poe.tasks.update]
+sequence = [
+  { shell = "poetry install" },
+  { shell = "playwright install" }
+]

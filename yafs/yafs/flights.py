@@ -49,7 +49,7 @@ async def _input_location(page, label, location_name, location_code):
     location = page.get_by_label(label, exact=True)
     await location.fill(location_name)
     await page.wait_for_timeout(2000)
-    airport = page.get_by_text(location_code, exact=True)
+    airport = page.get_by_text(location_code, exact=True).first
     await airport.click()
 
 
