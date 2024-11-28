@@ -85,5 +85,6 @@ sequence = [
 [tool.poe.tasks.update]
 sequence = [
   { shell = "poetry install" },
+  { shell = "poetry run pre-commit autoupdate" },
   { shell = "playwright install" }
 ]
