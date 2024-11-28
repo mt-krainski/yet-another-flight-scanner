@@ -29,7 +29,6 @@ flake8-pyproject = "^1.2.3"
 black = "^24.10.0"
 flake8-black = "^0.3.6"
 isort = "^5.13.2"
-django-extensions = "^3.2.3"
 coverage = "^7.6.4"
 ipython = "^8.28.0"
 jupyter = "^1.1.1"
@@ -62,6 +61,9 @@ per-file-ignores = """
 """
 whitelist = ".spellcheck-allowlist.txt"
 
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
+
 [tool.isort]
 include_trailing_comma = true
 force_grid_wrap = 0
@@ -81,4 +83,11 @@ run-hooks = "pre-commit run --all-files"
 [tool.poe.tasks.test-full]
 sequence = [
   { ref = "test" }
+]
+
+[tool.poe.tasks.update]
+sequence = [
+  { shell = "poetry install" },
+  { shell = "poetry run pre-commit autoupdate" },
+  { shell = "playwright install" }
 ]
