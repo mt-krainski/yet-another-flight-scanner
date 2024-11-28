@@ -49,6 +49,11 @@ def as_coroutine(f):
         "parameter names will be used"
     ),
 )
+@click.option(
+    "--verbose/--no-verbose",
+    default=False,
+    help="Turns on verbose logging. Warning, this will also save screenshots",
+)
 @as_coroutine
 async def yafs(
     origin_airport,
@@ -56,6 +61,7 @@ async def yafs(
     departure_date,
     return_date,
     result_filename,
+    verbose,
 ):
     for i in range(MAX_RETRIES):
         try:
@@ -66,11 +72,12 @@ async def yafs(
                 destination_airport[1],
                 departure_date,
                 return_date,
+                verbose,
             )
         except Exception as e:
             print(
-                f"Run failed due to {e}. This was attempt {i + 1}/{MAX_RETRIES}. "
-                "Restarting..."
+                f"Run failed due to ({type(e)}) {e}. This was attempt "
+                f"{i + 1}/{MAX_RETRIES}. Restarting..."
             )
         else:
             break
