@@ -64,7 +64,6 @@ def capture_screenshot(f):
     Returns:
         Callable: wrapper
     """
-    global verbose
 
     @wraps(f)
     async def wrapper(page, *args, **kwargs):
