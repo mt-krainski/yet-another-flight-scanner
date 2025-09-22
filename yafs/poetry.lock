@@ -834,14 +834,14 @@ flake8 = ">=5.0.0"
 
 [[package]]
 name = "flake8-black"
-version = "0.3.6"
+version = "0.4.0"
 description = "flake8 plugin to call black as a code style validator"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "flake8-black-0.3.6.tar.gz", hash = "sha256:0dfbca3274777792a5bcb2af887a4cad72c72d0e86c94e08e3a3de151bb41c34"},
-    {file = "flake8_black-0.3.6-py3-none-any.whl", hash = "sha256:fe8ea2eca98d8a504f22040d9117347f6b367458366952862ac3586e7d4eeaca"},
+    {file = "flake8_black-0.4.0-py3-none-any.whl", hash = "sha256:288762d0c9ea065782d87eeecbcc20c69079d17fe1d0f0445f0eb0b0ffb80c39"},
+    {file = "flake8_black-0.4.0.tar.gz", hash = "sha256:bf226868f695dee48d55ff6d7747e900709bfd6f605b7a378c70e711e3fc26cb"},
 ]
 
 [package.dependencies]
@@ -3535,4 +3535,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "1020cd11ca442457fc9516e7263051d6ca608c09c9401aa81408afe97a1d114f"
+content-hash = "dd2a1e2af8688b148e3e3d300305318cabcdbd72de966e684609ff1f14d2559f"
