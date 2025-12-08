@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.12"
 pytest = "^9.0.1"
 playwright = "^1.56.0"
-click = "^8.3.0"
+click = "^8.3.1"
 python-slugify = "^8.0.4"
 
 
